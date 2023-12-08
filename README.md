@@ -1,0 +1,19 @@
+# quant_final_assignment
+这是我《当代量化交易系统的原理与实现》课程的期末作业。mysystem是五个py文件，文件里面是写好的数据预处理、选股策略、择时策略、仓位分配策略和回测五个模块。
+在使用前，请确保股票数据表的表头正确：股票名称为"stk_id"，时间为"date"，单日开盘、最高、最低、收盘价分别为"open","high","low","close"。请注意这一点，表头不正确则无法使用。
+# 数据预处理
+数据预处理的代码放在Data_preprocessing.py文件中，有一名为Data_preprocessing的类，类要输入数据表格，该类下有两个函数，第一个函数Data_interpolation用于做数据插补，由于股票存在停牌、退市的情况导致数据缺失，无法回测，因此插补缺失日的数据是必要的。本函数中对所有股票缺失交易日的数据，插补其最近的前交易日作为该日数据。
+第二个函数Data_intercept用来筛选目标股票和日期的数据，输入变量为你想要的股票作为numpy数组、起始日期和结束日期。
+# 选股策略
+选股策略的代码放在stock_selection_strategy.py文件中，有一名为stock_selection_strategy的类，类要输入已插补的数据表格，该类下有一个函数n_days_reversal_strategy用于进行n日反转策略，需要输入具体做几日的反转，最后返回添加了交易信号的数据表格。
+# 择时策略
+择时策略的代码放在timing_strategy.py文件中，有一名为timing_strategy的类，类要输入已插补的数据表格，该类下有一个函数Golden_Cross_Strategy用于进行金叉策略，最后返回添加了交易信号的数据表格。
+# 持仓比策略
+在进行完选股或择时操作后，需要运行持仓比策略计算各个股票在每日的持仓比。代码放在portfolio_strategy_signal.py文件中，有一名为portfolio_strategy_signal的类，类要输入已运行完策略的数据表格，该类下有一个函数Average_holding用于进行均仓策略，即所有要购买的股票平均仓位，最后返回添加了每日各股持仓比信号的数据表格。
+# 回测
+在进行完持仓比策略的操作后，可以进行回测，代码放在Strategy_verification.py文件中，需首先运行backtest函数计算每日净值(输出一个日期-净值表格)，可据此直接绘制净值曲线。之后，可以运行该类里的其他函数计算其他回测指标。
+ExcessReturn函数用于计算每日超额收益，需要输入一个无风险利率(例如0.02)。
+Annual_Return函数用于计算年化收益。
+Annual_Volatility函数用于计算年化波动率。
+Sharpe_Ratio函数用于计算夏普比率，需要输入一个无风险利率(例如0.02)。
+Max_Drawdown函数用于计算最大回撤。
