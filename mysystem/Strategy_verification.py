@@ -10,7 +10,7 @@ class Strategy_verification(object):
         data.insert(0,'date', temp)
         #按date列进行重新排序
         data=data.sort_values(by=['date','stk_id'])
-        #以date作为一层索引，symbol作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
+        #以date作为一层索引，stk_id作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
         data=data.set_index(['date','stk_id'])
         self.data=data
         data=data.reset_index()
