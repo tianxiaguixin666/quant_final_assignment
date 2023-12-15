@@ -18,7 +18,7 @@ class portfolio_strategy_signal(object):
         data.insert(0,'date', temp)
         #按date列进行重新排序
         data=data.sort_values(by=['date','stk_id'])
-        #以date作为一层索引，symbol作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
+        #以date作为一层索引，stk_id作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
         data=data.set_index(['date','stk_id'])
         unique_stock_portfolio=[]
         for date in self.unique_date:
@@ -37,7 +37,7 @@ class portfolio_strategy_signal(object):
         data.insert(0,'stk_id', temp)
         #按date列进行重新排序
         data=data.sort_values(by=['stk_id','date'])
-        #以date作为一层索引，symbol作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
+        #以date作为一层索引，stk_id作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
         data=data.set_index(['stk_id','date'])
         portfolio_strategy_signal=data['portfolio_strategy_signal']
         self.data=pd.concat([self.data,portfolio_strategy_signal],axis=1)
