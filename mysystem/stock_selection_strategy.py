@@ -20,13 +20,13 @@ class stock_selection_strategy(object):
         n_days_up=pd.DataFrame(n_days_up,columns=['n_days_up'])
         data=data.reset_index()
         data=pd.concat([data,n_days_up],axis=1)
-        #将date和symbol两列交换，按照date的字符串进行升序排列，然后以date作为一层索引，symbol作为二层索引重新分类
+        #将date和stk_id两列交换，按照date的字符串进行升序排列，然后以date作为一层索引，stk_id作为二层索引重新分类
         temp=data['date']
         data.drop(labels=['date'], axis=1,inplace = True)
         data.insert(0,'date', temp)
         #按date列进行重新排序
         data=data.sort_values(by=['date','stk_id'])
-        #以date作为一层索引，symbol作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
+        #以date作为一层索引，stk_id作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
         data=data.set_index(['date','stk_id'])
         signal=[]
         for date in self.unique_date:
@@ -42,7 +42,7 @@ class stock_selection_strategy(object):
         data.insert(0,'stk_id', temp)
         #按date列进行重新排序
         data=data.sort_values(by=['stk_id','date'])
-        #以date作为一层索引，symbol作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
+        #以date作为一层索引，stk_id作为二层索引重新分表，以便于进行下一步的计算股票持仓比策略操作
         data=data.set_index(['stk_id','date'])
         self.data=data
         return self.data
